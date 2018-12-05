@@ -24,6 +24,8 @@
         </activity>
         <activity android:name=".TeacherLoginActivity"/>
         <activity android:name=".StudentLoginActivity"/>
+        <activity android:name=".StudentHome" />
+
     </application>
 
 </manifest>

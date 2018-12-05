@@ -38,10 +38,13 @@ public class myDataBase {
     String COURSE = "create table if not exists course("
             +"cid varchar(5) primary key,"
             +"cname varchar(20),"
+            +"ctype varchar(20),"
             +"grade int,"
             +"number int,"
+            +"credit int,"
             +"tid varchar(10),"
             +"college varchar(20),"
+            +"major varchar(20),"
             +"foreign key(tid) references teacher(id)"
             +")";
     // 选课信息表
@@ -60,7 +63,7 @@ public class myDataBase {
     // 测试: 手动插入教师信息
     String DEFAULT_INSERT_TEACHER = "insert into teacher values ('123456','张三','计算机科学与技术')";
     // 测试: 手动插入课程信息
-    String DEFAULT_INSERT_COURSE = "insert into course values('12345','软件工程',2016,50,'123456','计算机科学与技术')";
+    String DEFAULT_INSERT_COURSE = "insert into course values('12345','软件工程','专业选修课',2016,50,2,'123456','计算机科学与技术','网络工程')";
 
     // ces: 手动插入学生选课信息
 
@@ -81,6 +84,27 @@ public class myDataBase {
      */
     public myDataBase(String path) {
         SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(path,null);
+
+
+        //如果表存在先删除
+
+        database.execSQL("DROP TABLE IF EXISTS course");
+        database.execSQL("DROP TABLE IF EXISTS course_select");
+        database.execSQL("DROP TABLE IF EXISTS teacherlogin");
+
+        database.execSQL("DROP TABLE IF EXISTS studentlogin");
+        database.execSQL("DROP TABLE IF EXISTS teacher");
+        database.execSQL("DROP TABLE IF EXISTS student");
+
+
+
+
+
+
+
+
+
+
         database.execSQL(OPEN_FOREIGEN_KEY); //开启使用外键
         database.execSQL(STUDENT); //创建学生表
         database.execSQL(TEACHER); //创建教师表
@@ -88,6 +112,7 @@ public class myDataBase {
         database.execSQL(TEACHER_LOGIN); // 教师登录
         database.execSQL(COURSE); // 创建课程表
 
+        // 测试的时候 每次这边都会初始化 程序报错 所以开始时候先删除所有表
 
         database.execSQL(DEFAULTINSERT); // 插入学生信息
         database.execSQL(DEFAULT_INSERT_STUDENT_LOGIN);// 插入账号密码

@@ -1,31 +1,16 @@
 package www.hqu.edu.cn.lxb.coursesystem;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
-import android.content.pm.PackageManager;
-import android.os.AsyncTask;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.util.List;
+import android.widget.Toast;
 
 import www.hqu.edu.cn.lxb.database.LoginService;
-
-import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
@@ -37,6 +22,8 @@ public class StudentLoginActivity extends AppCompatActivity {
     private TextView studentId;
     private EditText studentPassWord;
     private Button login;
+
+
     private LoginService loginService;
     private String path;
 
@@ -59,7 +46,14 @@ public class StudentLoginActivity extends AppCompatActivity {
         login.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginService.studentLogin(studentId.getText()+"",studentPassWord.getText()+"");
+                if(loginService.studentLogin(studentId.getText()+"",studentPassWord.getText()+"")==true){
+                    Intent intent = new Intent(StudentLoginActivity.this, StudentHome.class);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(StudentLoginActivity.this,"账号或密码错误!",Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

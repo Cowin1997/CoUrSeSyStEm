@@ -7,6 +7,9 @@ import android.util.Log;
 public class LoginService {
     private static SQLiteDatabase db;
     private static String STUDENT_LOGIN_QUERY="select * from studentlogin where id= ? and passwd =?";
+    private static String getStudentLoginQuery=" select * from student where id = ?";
+
+
 
     public LoginService(String path){
         db = SQLiteDatabase.openOrCreateDatabase(path,null);
@@ -26,5 +29,13 @@ public class LoginService {
             Log.i("studentlogin","login failed!");
             return false;
     }
+
+    public Cursor getStudentInfoById(String sid){
+        Cursor cursor = db.rawQuery(getStudentLoginQuery,new String[]{sid});
+        Log.i("studentinfonumbers",cursor.getCount()+"");
+        return cursor;
+    }
+
+
 
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent" android:layout_width="wrap_content">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_menu_info"
+
+            android:title="个人信息" />
+        <item
+            android:id="@+id/nav_menu_maincourse"
+
+            android:title="MainCourse"/>
+        <item
+            android:id="@+id/nav_menu_loaction"
+
+            android:title="Loaction"/>
+        <item
+            android:id="@+id/nav_menu_mail"
+
+            android:title="Mail"/>
+        <item
+            android:id="@+id/nav_menu_logout"
+
+            android:title="退出登录"/>
+    </group>
+
+</menu>
