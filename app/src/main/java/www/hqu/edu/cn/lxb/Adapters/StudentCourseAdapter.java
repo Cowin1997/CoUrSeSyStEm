@@ -3,6 +3,7 @@ package www.hqu.edu.cn.lxb.Adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -19,6 +20,21 @@ public class StudentCourseAdapter extends RecyclerView.Adapter <StudentCourseAda
     //传递进来的参数
     List<Course> list;
 
+    public List<Course> getList() {
+        return list;
+    }
+
+    public void setList(List<Course> list) {
+        this.list = list;
+    }
+
+    /**
+     *
+     *  初始化
+     *
+     * @param context
+     * @param list
+     */
 
     public StudentCourseAdapter(Context context, List<Course> list) {
         this.context = context;
@@ -29,10 +45,15 @@ public class StudentCourseAdapter extends RecyclerView.Adapter <StudentCourseAda
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //创建自定义布局
-        View itemView = View.inflate(context, R.layout.item_layout, null);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        // 下面这个 有毒 , 不会使用root view
+        //  View itemView = View.inflate(context, R.layout.item_layout, null);
+        View itemView = inflater.inflate(R.layout.item_layout,parent, false);
         return new MyHolder(itemView);
     }
 
+
+    // 数据绑定
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
 
@@ -46,6 +67,11 @@ public class StudentCourseAdapter extends RecyclerView.Adapter <StudentCourseAda
 
     }
 
+    /**
+     *   这个方法返回整数,用于数据绑定的行数;
+     *
+      * @return
+     */
     @Override
     public int getItemCount() {
         return list.size();
@@ -76,7 +102,6 @@ public class StudentCourseAdapter extends RecyclerView.Adapter <StudentCourseAda
             teacherName = itemView.findViewById(R.id.teachername);
             //学分
             courseCredit = itemView.findViewById(R.id.coursecredit);
-
 
             //点击事件放在adapter中使用，也可以写个接口在activity中调用
             //方法一：在adapter中设置点击事件

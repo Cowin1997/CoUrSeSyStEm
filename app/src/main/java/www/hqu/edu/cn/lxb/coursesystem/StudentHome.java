@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import www.hqu.edu.cn.lxb.Fragments.FragmentCommon;
+import www.hqu.edu.cn.lxb.entity.Course;
 
 
 public class StudentHome extends AppCompatActivity {
@@ -28,10 +29,17 @@ public class StudentHome extends AppCompatActivity {
     private TextView studentName;
     private TextView studentCollege;
     TabView tabView;
+    FragmentCommon fragmentCommon1;
+    FragmentCommon fragmentCommon2;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        // 初始化 两个 fragment
+        fragmentCommon1 = FragmentCommon.newInstance("1");
+        fragmentCommon2 = FragmentCommon.newInstance("2");
+
+
         getSupportActionBar().hide();
         setContentView(R.layout.studenthome);
         tabView=  findViewById(R.id.tabView);
@@ -70,16 +78,26 @@ public class StudentHome extends AppCompatActivity {
 
 
         List<TabViewChild> tabViewChildList=new ArrayList<>();
-        TabViewChild tabViewChild01=new TabViewChild(0,0,"首页",FragmentCommon.newInstance("1"));
-        TabViewChild tabViewChild02=new TabViewChild(0,0,"设置",FragmentCommon.newInstance("2"));
+        TabViewChild tabViewChild01=new TabViewChild(0,0,"首页",fragmentCommon1);
+        TabViewChild tabViewChild02=new TabViewChild(0,0,"设置",fragmentCommon2);
 
         tabViewChildList.add(tabViewChild01);
         tabViewChildList.add(tabViewChild02);
         tabView.setTabViewDefaultPosition(2);
         tabView.setTabViewChild(tabViewChildList,getSupportFragmentManager());
+
         tabView.setOnTabChildClickListener(new TabView.OnTabChildClickListener() {
-            @Override
-            public void onTabChildClick(int position, ImageView currentImageIcon, TextView currentTextView) {
+                    @Override
+                    public void onTabChildClick(int position, ImageView currentImageIcon, TextView currentTextView) {
+                        if (position==1){
+                            List<Course> list = new ArrayList<>();
+                            Course course1 = new Course("软件工程","张一",1,"计算机科学与技术","网络工程","12345",50,"专业选修课");
+                            list.add(course1);
+                            fragmentCommon2.setList(list);
+
+
+                        }
+
                  Toast.makeText(getApplicationContext(),"position:"+position,Toast.LENGTH_SHORT).show();
             }
         });

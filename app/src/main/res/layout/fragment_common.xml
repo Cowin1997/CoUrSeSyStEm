@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
 
     >
@@ -13,32 +13,36 @@
         android:background="#FFFFFF"
         >
         <TextView
-            android:id="@+id/coursetype"
-            android:layout_width="200px"
+
+            android:layout_width="0px"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textColor="@color/blue_500"
             android:text="课程性质"
             android:textAlignment="center"
             />
         <TextView
-            android:id="@+id/coursename"
-            android:layout_width="200px"
+
+            android:layout_width="0px"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textColor="@color/blue_500"
             android:text="课程名"
             android:textAlignment="center"
             />
         <TextView
-            android:id="@+id/teachername"
-            android:layout_width="200px"
+
+            android:layout_width="0px"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textColor="@color/blue_500"
             android:text="任课老师"
             android:textAlignment="center"
             />
         <TextView
-            android:id="@+id/coursecredit"
-            android:layout_width="200px"
+
+            android:layout_width="0px"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textColor="@color/blue_500"
             android:text="学分"

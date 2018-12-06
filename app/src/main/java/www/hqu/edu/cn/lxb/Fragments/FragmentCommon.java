@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,10 +34,20 @@ public class FragmentCommon extends Fragment {
         fragmentCommon.setArguments(bundle);
         return fragmentCommon;
     }
+
+    public List<Course> getList() {
+        return list;
+    }
+
+    public void setList(List<Course> list) {
+        this.list = list;
+    }
+
     @Nullable @Override
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         initData();
+
         View view=inflater.inflate(R.layout.fragment_common,container,false);
         // 获取Fragment的recyclerView组件
         mRecyclerView = view.findViewById(R.id.recyclerView);
@@ -50,7 +61,7 @@ public class FragmentCommon extends Fragment {
         studentCourseAdapter = new StudentCourseAdapter(getActivity(), list);
         //设置适配器
         mRecyclerView.setAdapter(studentCourseAdapter);
-
+        Log.i("Fragment","------------onCreateView---------------");
         return view;
     }
 
@@ -66,6 +77,35 @@ public class FragmentCommon extends Fragment {
         list.add(course1);
         list.add(course2);
         list.add(course3);
+        list.add(course4);
 
     }
+
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(hidden){   // 切换的时候会隐藏
+
+        } else {
+          this.updateData(this.getList());
+
+        }
+    }
+    @Override
+    public void onResume() {
+        Log.i("Fragement","resume");
+        super.onResume();
+    }
+
+    /**
+     *  数据更新
+     */
+    public void updateData(List<Course>list){
+        // 对适配器数据进行更新呀
+        studentCourseAdapter.setList(list);
+        studentCourseAdapter.notifyDataSetChanged(); // 当有数据更新的时候需要告诉适配器的鸭
+    }
+
+
 }
