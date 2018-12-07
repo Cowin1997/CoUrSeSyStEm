@@ -3,18 +3,20 @@ package www.hqu.edu.cn.lxb.Adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.HashMap;
 import java.util.List;
 
 import www.hqu.edu.cn.lxb.coursesystem.R;
 import www.hqu.edu.cn.lxb.entity.Course;
 
-public class StudentCourseAdapter extends RecyclerView.Adapter <StudentCourseAdapter.MyHolder> {
+public class StudentCourseSelectAdapter extends RecyclerView.Adapter <StudentCourseSelectAdapter.MyHolder> {
     //上下文
     Context context;
     //传递进来的参数
@@ -36,7 +38,7 @@ public class StudentCourseAdapter extends RecyclerView.Adapter <StudentCourseAda
      * @param list
      */
 
-    public StudentCourseAdapter(Context context, List<Course> list) {
+    public StudentCourseSelectAdapter(Context context, List<Course> list) {
         this.context = context;
         this.list = list;
     }
@@ -47,8 +49,10 @@ public class StudentCourseAdapter extends RecyclerView.Adapter <StudentCourseAda
         //创建自定义布局
         LayoutInflater inflater = LayoutInflater.from(context);
         // 下面这个 有毒 , 不会使用root view
-        //  View itemView = View.inflate(context, R.layout.item_layout, null);
-        View itemView = inflater.inflate(R.layout.item_layout,parent, false);
+        //  View itemView = View.inflate(context, R.layout.item_show, null);
+    //    View itemView = inflater.inflate(R.layout.item_show,parent, false);
+
+        View itemView = inflater.inflate(R.layout.item_select,parent, false);
         return new MyHolder(itemView);
     }
 
@@ -61,7 +65,7 @@ public class StudentCourseAdapter extends RecyclerView.Adapter <StudentCourseAda
         holder.courseType.setText(course.getCourseType());
         holder.courseName.setText(course.getCourseName());
         holder.teacherName.setText(course.getTeacherName());
-        holder.courseCredit.setText(course.getCourseType());
+        holder.courseCredit.setText(course.getCredit()+"");
 
 
 
@@ -74,7 +78,11 @@ public class StudentCourseAdapter extends RecyclerView.Adapter <StudentCourseAda
      */
     @Override
     public int getItemCount() {
+
+        if(this.list!=null)
         return list.size();
+        else
+            return 0;
     }
 
 
@@ -89,10 +97,11 @@ public class StudentCourseAdapter extends RecyclerView.Adapter <StudentCourseAda
         private TextView courseName;
         private TextView teacherName;
         private TextView courseCredit;
+        private CheckBox checkBox;
 
 
 
-        public MyHolder(View itemView) {
+        public MyHolder(final View itemView) {
             super(itemView);
             //课程性质
             courseType = itemView.findViewById(R.id.coursetype);
@@ -102,20 +111,39 @@ public class StudentCourseAdapter extends RecyclerView.Adapter <StudentCourseAda
             teacherName = itemView.findViewById(R.id.teachername);
             //学分
             courseCredit = itemView.findViewById(R.id.coursecredit);
+            // 选择框啊
+            checkBox = itemView.findViewById(R.id.toselect);
 
-            //点击事件放在adapter中使用，也可以写个接口在activity中调用
-            //方法一：在adapter中设置点击事件
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    //可以选择直接在本位置直接写业务处理
-//                    //Toast.makeText(context,"点击了xxx",Toast.LENGTH_SHORT).show();
-//                    //此处回传点击监听事件
+
+
+//            点击事件放在adapter中使用，也可以写个接口在activity中调用
+//            方法一：在adapter中设置点击事件
+            itemView.setOnClickListener(new View.OnClickListener() {
+                Boolean selected = false;
+                @Override
+                public void onClick(View v) {
+
+                    //可以选择直接在本位置直接写业务处理
+                    Toast.makeText(context,"点击了xxx",Toast.LENGTH_SHORT).show();
+                    if(!selected) {
+                        checkBox.setChecked(true);
+                        Log.i("Select",courseName.getText().toString());
+                        selected = true;
+                    }
+                    else {
+                        checkBox.setChecked(false);
+                        Log.i("UnSelect",courseName.getText().toString());
+                        selected = false;
+                    }
+
+
+
+                    //此处回传点击监听事件
 //                    if(onItemClickListener!=null){
 //                        onItemClickListener.OnItemClick(v, goodsEntityList.get(getLayoutPosition()));
 //                    }
 //                }
-//            });
+            }});
 
 
 
@@ -128,10 +156,10 @@ public class StudentCourseAdapter extends RecyclerView.Adapter <StudentCourseAda
 
 
         }
+        }
     }
 
 
 
 
 
-}

@@ -10,15 +10,15 @@
         <item
             android:id="@+id/nav_menu_maincourse"
 
-            android:title="MainCourse"/>
+            android:title="我的课程"/>
         <item
             android:id="@+id/nav_menu_loaction"
 
-            android:title="Loaction"/>
+            android:title="大学信息"/>
         <item
             android:id="@+id/nav_menu_mail"
 
-            android:title="Mail"/>
+            android:title="邮箱"/>
         <item
             android:id="@+id/nav_menu_logout"
 

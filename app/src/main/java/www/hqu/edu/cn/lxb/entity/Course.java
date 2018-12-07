@@ -1,6 +1,9 @@
 package www.hqu.edu.cn.lxb.entity;
 
-public class Course {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Course implements Parcelable {
     private String courseName; //课程名字
     private String teacherName; //任课老师
     private Integer credit;   //学分
@@ -12,6 +15,37 @@ public class Course {
 
     public Course() {
     }
+
+    protected Course(Parcel in) {
+        courseName = in.readString();
+        teacherName = in.readString();
+        if (in.readByte() == 0) {
+            credit = null;
+        } else {
+            credit = in.readInt();
+        }
+        college = in.readString();
+        major = in.readString();
+        courseId = in.readString();
+        if (in.readByte() == 0) {
+            number = null;
+        } else {
+            number = in.readInt();
+        }
+        courseType = in.readString();
+    }
+
+    public static final Creator<Course> CREATOR = new Creator<Course>() {
+        @Override
+        public Course createFromParcel(Parcel in) {
+            return new Course(in);
+        }
+
+        @Override
+        public Course[] newArray(int size) {
+            return new Course[size];
+        }
+    };
 
     @Override
     public String toString() {
@@ -100,5 +134,32 @@ public class Course {
 
     public void setNumber(Integer number) {
         this.number = number;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(courseName);
+        dest.writeString(teacherName);
+        if (credit == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(credit);
+        }
+        dest.writeString(college);
+        dest.writeString(major);
+        dest.writeString(courseId);
+        if (number == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(number);
+        }
+        dest.writeString(courseType);
     }
 }

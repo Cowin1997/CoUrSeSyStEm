@@ -43,7 +43,9 @@ tools:context=".StudentLoginActivity">
                 android:hint="@string/StudentNo"
                 android:inputType="number"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:text="1625131017"
+                />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -62,7 +64,8 @@ tools:context=".StudentLoginActivity">
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:text="admin"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"

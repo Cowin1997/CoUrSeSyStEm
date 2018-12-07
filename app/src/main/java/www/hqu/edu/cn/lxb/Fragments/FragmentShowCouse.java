@@ -1,38 +1,48 @@
 package www.hqu.edu.cn.lxb.Fragments;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
+
+import com.chanven.lib.cptr.PtrClassicFrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import www.hqu.edu.cn.lxb.Adapters.StudentCourseAdapter;
+import www.hqu.edu.cn.lxb.Adapters.StudentCourseShowAdapter;
 import www.hqu.edu.cn.lxb.coursesystem.R;
 import www.hqu.edu.cn.lxb.entity.Course;
 
 
-public class FragmentCommon extends Fragment {
+public class FragmentShowCouse extends Fragment {
     RecyclerView mRecyclerView;
-    StudentCourseAdapter studentCourseAdapter;
-    List<Course> list;
+    StudentCourseShowAdapter studentCourseShowAdapter;
+    List<Course> list  = null;
+    PtrClassicFrameLayout ptrClassicFrameLayout;  //列表下拉刷新
+    public void setIsshow(Boolean isshow) {
+        this.isshow = isshow;
+    }
 
-    public static FragmentCommon newInstance(String text){
-        FragmentCommon fragmentCommon=new FragmentCommon();
+    Boolean isshow=true;
+
+
+    public static FragmentShowCouse newInstance(String text, List<Course>list){
+        FragmentShowCouse fragmentShowCouse =new FragmentShowCouse();
         Bundle bundle=new Bundle();
         bundle.putString("text",text);
-        fragmentCommon.setArguments(bundle);
-        return fragmentCommon;
+        //初始化的时候传入list
+        bundle.putParcelableArrayList("list", (ArrayList<? extends Parcelable>) list);
+        fragmentShowCouse.setArguments(bundle);
+        return fragmentShowCouse;
     }
 
     public List<Course> getList() {
@@ -46,9 +56,15 @@ public class FragmentCommon extends Fragment {
     @Nullable @Override
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        initData();
+      //  initData();
+        // 初始化数据
+         List<Course>list = getArguments().getParcelableArrayList("list");
+         Log.i("bounder",  getArguments().getParcelableArrayList("list").toString());
+         //
 
-        View view=inflater.inflate(R.layout.fragment_common,container,false);
+         View view=inflater.inflate(R.layout.fragment_show,container,false);
+         if(isshow == false)
+        ((Button) view.findViewById(R.id.select)).setVisibility(View.INVISIBLE);
         // 获取Fragment的recyclerView组件
         mRecyclerView = view.findViewById(R.id.recyclerView);
         //设置layoutManager,可以设置显示效果，是线性布局、grid布局，还是瀑布流布局
@@ -58,10 +74,23 @@ public class FragmentCommon extends Fragment {
         //设置item的分割线
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
         //初始化适配器
-        studentCourseAdapter = new StudentCourseAdapter(getActivity(), list);
+        studentCourseShowAdapter = new StudentCourseShowAdapter(getActivity(), list);
         //设置适配器
-        mRecyclerView.setAdapter(studentCourseAdapter);
+        mRecyclerView.setAdapter(studentCourseShowAdapter);
+        this.updateData(list); // 一打开的时候是会初始化的,如需要及时显示;update
+        ptrClassicFrameLayout = (PtrClassicFrameLayout) view.findViewById(R.id.test_recycler_view_frame);
+        Log.i("ptrClassicFrameLayout",ptrClassicFrameLayout.toString());
         Log.i("Fragment","------------onCreateView---------------");
+
+        ptrClassicFrameLayout.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                ptrClassicFrameLayout.autoRefresh(true);
+            }
+        }, 150);
+
+
         return view;
     }
 
@@ -89,7 +118,6 @@ public class FragmentCommon extends Fragment {
 
         } else {
           this.updateData(this.getList());
-
         }
     }
     @Override
@@ -103,8 +131,8 @@ public class FragmentCommon extends Fragment {
      */
     public void updateData(List<Course>list){
         // 对适配器数据进行更新呀
-        studentCourseAdapter.setList(list);
-        studentCourseAdapter.notifyDataSetChanged(); // 当有数据更新的时候需要告诉适配器的鸭
+        studentCourseShowAdapter.setList(list);
+        studentCourseShowAdapter.notifyDataSetChanged(); // 当有数据更新的时候需要告诉适配器的鸭
     }
 
 

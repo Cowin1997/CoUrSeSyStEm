@@ -6,8 +6,8 @@ import android.util.Log;
 
 public class LoginService {
     private static SQLiteDatabase db;
-    private static String STUDENT_LOGIN_QUERY="select * from studentlogin where id= ? and passwd =?";
-    private static String getStudentLoginQuery=" select * from student where id = ?";
+    private static String STUDENT_LOGIN_QUERY="select * from studentlogin where sid= ? and spasswd =?";
+    private static String getStudentLoginQuery=" select * from student where sid = ?";
 
 
 
