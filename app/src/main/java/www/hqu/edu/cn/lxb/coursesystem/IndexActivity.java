@@ -51,7 +51,7 @@ public class IndexActivity extends AppCompatActivity {
 
 
         // test
-        SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openOrCreateDatabase(databasepath,null);
+    //    SQLiteDatabase sqLiteDatabase = SQLiteDatabase.openOrCreateDatabase(databasepath,null);
         //
         Log.i("database","数据库初始化成功!");
 

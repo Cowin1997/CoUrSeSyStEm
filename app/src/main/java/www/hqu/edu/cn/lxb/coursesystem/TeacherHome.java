@@ -11,12 +11,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.heima.tabview.library.TabView;
 import com.heima.tabview.library.TabViewChild;
 
@@ -30,19 +28,18 @@ import www.hqu.edu.cn.lxb.database.StudentCourseService;
 import www.hqu.edu.cn.lxb.entity.Course;
 
 
-public class StudentHome extends AppCompatActivity {
+public class TeacherHome extends AppCompatActivity {
     private NavigationView navigationView;
     private View headerView;
     private TextView studentName;
     private TextView studentCollege;
     TabView tabView;
-    FragmentSelectCouse fragmentSelectCouse;
-    FragmentShowCouse fragmentShowCouse;
-    FragmentEditCouse fragmentEditCouse;
-    private Toolbar mNormalToolbar; // 顶部的toolBar
+    FragmentSelectCouse fragmentShowCouse0;
+    FragmentShowCouse fragmentShowCouse1;
+    FragmentEditCouse fragmentShowCouse2;
+    private Toolbar mNormalToolbar;
     private DrawerLayout drawerLayout; //抽屉的layout
-    private StudentCourseService studentCourseService; // 学生课程服务
-
+    private StudentCourseService studentCourseService;
 
 
     @Override
@@ -63,37 +60,35 @@ public class StudentHome extends AppCompatActivity {
         tabView=  findViewById(R.id.tabView);
 
         drawerLayout = findViewById(R.id.a);
-        //navigationView
         navigationView = findViewById(R.id.nav);
-
+     //   navigationView = drawerLayout.findViewById(R.id.nav);
         headerView = navigationView.getHeaderView(0);
         //显示学生名字
         studentName = headerView.findViewById(R.id.studentname);
+        studentName.setText("lixibin");
         //显示学生学院信息
         studentCollege = headerView.findViewById(R.id.studentcollege);
-        //设置个人信息
-        studentName.setText(getIntent().getStringExtra("sname"));
-        studentCollege.setText(getIntent().getStringExtra("scollege"));
+        studentCollege.setText("计算机科学与技术学院");
+        //为抽屉设置监听
+
 
         // 我的课程初始化数据
         List<Course> listshow;
         listshow = studentCourseService.getCourseListById("1625131017");
         // 可选课程初始化数据
         List<Course> listselect = studentCourseService.getCourseCanSelectListById("1625131017")  ;
-        List<Course> listedit;
-        listedit = studentCourseService.getCourseListById("1625131017");
 
         // 初始化 两个 fragment
-        fragmentSelectCouse = FragmentSelectCouse.newInstance("1625131017",listselect);
-        fragmentShowCouse = FragmentShowCouse.newInstance("2",listshow);
-        fragmentEditCouse = FragmentEditCouse.newInstance("3",listedit);
+        fragmentShowCouse0 = FragmentSelectCouse.newInstance("1",listselect);
+        fragmentShowCouse1 = FragmentShowCouse.newInstance("2",listshow);
+        fragmentShowCouse2 = FragmentEditCouse.newInstance("3",null);
        // ptrClassicFrameLayout = (PtrClassicFrameLayout) fragmentShowCouse1.getLayoutInflater()
         //这里设置 TabView
 
         List<TabViewChild> tabViewChildList=new ArrayList<>();
-        TabViewChild tabViewChild0=new TabViewChild(0,0,"选择课程", fragmentSelectCouse);
-        TabViewChild tabViewChild1=new TabViewChild(0,0,"我的课程", fragmentShowCouse);
-        TabViewChild tabViewChild2=new TabViewChild(0,0,"修改课程", fragmentEditCouse);
+        TabViewChild tabViewChild0=new TabViewChild(0,0,"选择课程", fragmentShowCouse0);
+        TabViewChild tabViewChild1=new TabViewChild(0,0,"我的课程", fragmentShowCouse1);
+        TabViewChild tabViewChild2=new TabViewChild(0,0,"修改课程", fragmentShowCouse2);
         tabViewChildList.add(tabViewChild0);
         tabViewChildList.add(tabViewChild1);
         tabViewChildList.add(tabViewChild2);
@@ -107,28 +102,9 @@ public class StudentHome extends AppCompatActivity {
                         if (position==1){
                             List<Course> list;
                             list = studentCourseService.getCourseListById("1625131017");
-                            fragmentShowCouse.setList(list);
+                            fragmentShowCouse1.setList(list);
 
                         }
-                        if(position==0){
-                            List<Course> listselect = studentCourseService.getCourseCanSelectListById("1625131017");
-          //                  Log.i("可以选课",listselect.toString());
-                            fragmentSelectCouse.setList(listselect);
-
-                        }
-                        if(position==2){
-
-                            List<Course> list;
-                            list = studentCourseService.getCourseListById("1625131017");
-                            fragmentEditCouse.setList(list);
-
-
-
-                        }
-
-
-
-
 
                  Toast.makeText(getApplicationContext(),"position:"+position,Toast.LENGTH_SHORT).show();
             }
@@ -146,7 +122,14 @@ public class StudentHome extends AppCompatActivity {
             }
         });
 
+        // 测试 获取 数据库 数据 输出
+        studentCourseService.getCourseListById("1625131017");
 
+
+
+      //  studentCourseService.getStudentById("1625131017");
+     //   Log.i("ptrClassicFrameLayout",ptrClassicFrameLayout.toString());
+         studentCourseService.getCourseCanSelectListById("1625131017");
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -154,10 +137,12 @@ public class StudentHome extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.nav_menu_info: {
                         Log.i("menu", "info");
+                        studentName.setText("李溪滨");
+                        studentCollege.setText("计算机科学与技术学院");
                         break;
                     }
                     case R.id.nav_menu_logout:{
-                        Intent intent = new Intent(StudentHome.this,IndexActivity.class);
+                        Intent intent = new Intent(TeacherHome.this,IndexActivity.class);
                         startActivity(intent);
                         break;
                     }
@@ -166,7 +151,6 @@ public class StudentHome extends AppCompatActivity {
                 return false;
             }
         });
-
 
 
 

@@ -16,6 +16,7 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.List;
 
+import www.hqu.edu.cn.lxb.Adapters.StudentCourseEditAdapter;
 import www.hqu.edu.cn.lxb.Adapters.StudentCourseShowAdapter;
 import www.hqu.edu.cn.lxb.coursesystem.R;
 import www.hqu.edu.cn.lxb.entity.Course;
@@ -23,7 +24,7 @@ import www.hqu.edu.cn.lxb.entity.Course;
 
 public class FragmentEditCouse extends Fragment {
     RecyclerView mRecyclerView;
-    StudentCourseShowAdapter studentCourseShowAdapter;
+    StudentCourseEditAdapter studentCourseEditAdapter;
     List<Course> list  = null;
 
     public void setIsshow(Boolean isshow) {
@@ -57,7 +58,7 @@ public class FragmentEditCouse extends Fragment {
 
          // 初始化数据
          List<Course>list = getArguments().getParcelableArrayList("list");
-         Log.i("bounder",  getArguments().getParcelableArrayList("list").toString());
+    //     Log.i("bounder",  getArguments().getParcelableArrayList("list").toString());
          //
          View view=inflater.inflate(R.layout.fragment_select,container,false);
          if(isshow == false)
@@ -71,9 +72,9 @@ public class FragmentEditCouse extends Fragment {
         //设置item的分割线
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),DividerItemDecoration.VERTICAL));
         //初始化适配器
-        studentCourseShowAdapter = new StudentCourseShowAdapter(getActivity(), list);
+        studentCourseEditAdapter = new StudentCourseEditAdapter(getActivity(), list);
         //设置适配器
-        mRecyclerView.setAdapter(studentCourseShowAdapter);
+        mRecyclerView.setAdapter(studentCourseEditAdapter);
         this.updateData(list); // 一打开的时候是会初始化的,如需要及时显示;update
 
 
@@ -99,8 +100,8 @@ public class FragmentEditCouse extends Fragment {
      */
     public void updateData(List<Course>list){
         // 对适配器数据进行更新呀
-        studentCourseShowAdapter.setList(list);
-        studentCourseShowAdapter.notifyDataSetChanged(); // 当有数据更新的时候需要告诉适配器的鸭
+        studentCourseEditAdapter.setList(list);
+        studentCourseEditAdapter.notifyDataSetChanged(); // 当有数据更新的时候需要告诉适配器的鸭
     }
 
 

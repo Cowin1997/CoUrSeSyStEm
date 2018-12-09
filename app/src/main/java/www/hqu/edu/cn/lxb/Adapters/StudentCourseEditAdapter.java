@@ -8,26 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import www.hqu.edu.cn.lxb.coursesystem.R;
-import www.hqu.edu.cn.lxb.database.StudentCourseService;
 import www.hqu.edu.cn.lxb.entity.Course;
 
-public class StudentCourseSelectAdapter extends RecyclerView.Adapter <StudentCourseSelectAdapter.MyHolder> {
+public class StudentCourseEditAdapter extends RecyclerView.Adapter <StudentCourseEditAdapter.MyHolder> {
     //上下文
     Context context;
     //传递进来的参数
     List<Course> list;
-    //
-
-    private List<String> selectedcourse = new ArrayList<>();
 
     public List<Course> getList() {
         return list;
@@ -45,10 +38,9 @@ public class StudentCourseSelectAdapter extends RecyclerView.Adapter <StudentCou
      * @param list
      */
 
-    public StudentCourseSelectAdapter(Context context, List<Course> list) {
+    public StudentCourseEditAdapter(Context context, List<Course> list) {
         this.context = context;
         this.list = list;
-
     }
 
     @NonNull
@@ -68,20 +60,13 @@ public class StudentCourseSelectAdapter extends RecyclerView.Adapter <StudentCou
     // 数据绑定
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
+
         Course course = list.get(position);
-
-        if(course.getNumber()!=0) {
-            holder.courseType.setText(course.getCourseType());
-            holder.courseName.setText(course.getCourseName());
-            holder.teacherName.setText(course.getTeacherName());
-            holder.courseCredit.setText(course.getCredit() + "");
-            holder.number.setText(course.getNumber() + "");
-            holder.checkBox.setChecked(false);  //每次选择提交完的时候,复选框都会清默认为空
-        }
-        else {
-            holder.setVisibility(false);
-        }
-
+        holder.courseType.setText(course.getCourseType());
+        holder.courseName.setText(course.getCourseName());
+        holder.teacherName.setText(course.getTeacherName());
+        holder.courseCredit.setText(course.getCredit()+"");
+        holder.number.setText(course.getNumber()+"");
 
     }
 
@@ -130,15 +115,13 @@ public class StudentCourseSelectAdapter extends RecyclerView.Adapter <StudentCou
             checkBox = itemView.findViewById(R.id.toselect);
             //可选人数
             number  = itemView.findViewById(R.id.number);
-            checkBox.setChecked(false);
+
 
 
 //            点击事件放在adapter中使用，也可以写个接口在activity中调用
 //            方法一：在adapter中设置点击事件
             itemView.setOnClickListener(new View.OnClickListener() {
-
                 Boolean selected = false;
-
                 @Override
                 public void onClick(View v) {
 
@@ -146,69 +129,37 @@ public class StudentCourseSelectAdapter extends RecyclerView.Adapter <StudentCou
                     Toast.makeText(context,"点击了xxx",Toast.LENGTH_SHORT).show();
                     if(!selected) {
                         checkBox.setChecked(true);
+                        Log.i("Select",courseName.getText().toString());
                         selected = true;
                     }
                     else {
                         checkBox.setChecked(false);
+                        Log.i("UnSelect",courseName.getText().toString());
                         selected = false;
                     }
 
+
+
+                    //此处回传点击监听事件
+//                    if(onItemClickListener!=null){
+//                        onItemClickListener.OnItemClick(v, goodsEntityList.get(getLayoutPosition()));
+//                    }
+//                }
             }});
 
 
-            //复选框监听
 
 
 
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isChecked){
-                        selectedcourse.add(courseName.getText().toString());
-                        Log.i("Select",courseName.getText().toString());
-                        Log.i("selectedcoursezzzz",selectedcourse.toString());
-
-                    }
-                    if(!isChecked){
-                        if(selectedcourse.size()!=0)
-                        selectedcourse.remove(selectedcourse.size()-1);
-                        Log.i("UnSelect",courseName.getText().toString());
-                        Log.i("selectedcoursezzzzz",selectedcourse.toString());
-                    }
-                }
-            });
-
-        }
 
 
-
-        public void setVisibility(boolean isVisible){
-            RecyclerView.LayoutParams param = (RecyclerView.LayoutParams)itemView.getLayoutParams();
-            if (isVisible){
-                param.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-                param.width = LinearLayout.LayoutParams.MATCH_PARENT;
-                itemView.setVisibility(View.VISIBLE);
-            }else{
-                itemView.setVisibility(View.GONE);
-                param.height = 0;
-                param.width = 0;
-            }
-            itemView.setLayoutParams(param);
-        }
 
 
 
 
         }
-
-    public List<String> getSelectedcourse() {
-        return selectedcourse;
+        }
     }
-
-    public void clearSelectCourse(){
-        this.selectedcourse.clear();
-    }
-}
 
 
 

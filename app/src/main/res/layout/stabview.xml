@@ -6,17 +6,6 @@
 
 
 
-    <!--侧滑抽屉-->
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav"
-        android:layout_gravity="start"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:headerLayout="@layout/studenthead"
-        app:menu="@menu/studentmenu"
-       />
     <!--底部导航-->
     <com.heima.tabview.library.TabView
         android:id="@+id/tabView"
@@ -24,4 +13,17 @@
         android:layout_height="match_parent">
     </com.heima.tabview.library.TabView>
 
+    <!-- 有毒,这个 放在 前面的话 监听不到 -->
+
+    <!--侧滑抽屉-->
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav"
+        android:layout_gravity="left"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:headerLayout="@layout/studenthead"
+        app:menu="@menu/studentmenu"
+        />
 </android.support.v4.widget.DrawerLayout>

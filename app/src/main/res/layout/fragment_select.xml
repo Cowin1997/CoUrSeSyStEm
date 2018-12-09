@@ -48,6 +48,24 @@
             android:text="学分"
             android:textAlignment="center"
             />
+        <TextView
+            android:id="@+id/number"
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue_500"
+            android:text="可选人数"
+            android:textAlignment="center"
+            />
+        <TextView
+            android:id="@+id/empty"
+            android:layout_width="0px"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue_500"
+            android:text=""
+            android:textAlignment="center"
+            />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -61,9 +79,13 @@
 </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:id="@+id/select_layout"
+        >
 
         <Button
+            android:gravity="center"
             android:id="@+id/select"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

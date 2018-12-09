@@ -13,6 +13,7 @@
         android:textColor="@color/blue_500"
         android:text="课程性质"
         android:textAlignment="center"
+        android:textSize="18dp"
         />
     <TextView
         android:id="@+id/coursename"
@@ -22,6 +23,7 @@
         android:textColor="@color/blue_500"
         android:text="课程名"
         android:textAlignment="center"
+        android:textSize="18dp"
         />
     <TextView
         android:id="@+id/teachername"
@@ -31,6 +33,7 @@
         android:textColor="@color/blue_500"
         android:text="任课老师"
         android:textAlignment="center"
+        android:textSize="18dp"
         />
     <TextView
         android:id="@+id/coursecredit"
@@ -40,6 +43,7 @@
         android:textColor="@color/blue_500"
         android:text="学分"
         android:textAlignment="center"
+        android:textSize="18dp"
         />
 
 </LinearLayout>

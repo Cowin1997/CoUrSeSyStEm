@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import www.hqu.edu.cn.lxb.database.LoginService;
+import www.hqu.edu.cn.lxb.entity.Student;
 
 /**
  * A login screen that offers login via email/password.
@@ -47,7 +48,12 @@ public class StudentLoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(loginService.studentLogin(studentId.getText()+"",studentPassWord.getText()+"")==true){
+                    Student student = loginService.getStudentById(studentId.getText().toString());
                     Intent intent = new Intent(StudentLoginActivity.this, StudentHome.class);
+                    intent.putExtra("sname",student.getsName());
+                    intent.putExtra("scollege",student.getsCollege());
+                    intent.putExtra("sgrade",student.getsGrade());
+                    intent.putExtra("sid",student.getSid());
                     startActivity(intent);
                 }
                 else{
@@ -56,6 +62,7 @@ public class StudentLoginActivity extends AppCompatActivity {
 
             }
         });
+
 
     }
 

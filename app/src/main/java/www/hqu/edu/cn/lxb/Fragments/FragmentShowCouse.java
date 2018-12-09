@@ -59,7 +59,7 @@ public class FragmentShowCouse extends Fragment {
       //  initData();
         // 初始化数据
          List<Course>list = getArguments().getParcelableArrayList("list");
-         Log.i("bounder",  getArguments().getParcelableArrayList("list").toString());
+        // Log.i("bounder",  getArguments().getParcelableArrayList("list").toString());
          //
 
          View view=inflater.inflate(R.layout.fragment_show,container,false);
@@ -82,33 +82,20 @@ public class FragmentShowCouse extends Fragment {
         Log.i("ptrClassicFrameLayout",ptrClassicFrameLayout.toString());
         Log.i("Fragment","------------onCreateView---------------");
 
-        ptrClassicFrameLayout.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                ptrClassicFrameLayout.autoRefresh(true);
-            }
-        }, 150);
+//        ptrClassicFrameLayout.postDelayed(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                ptrClassicFrameLayout.autoRefresh(true);
+//            }
+//        }, 150);
 
 
         return view;
     }
 
 
-    //测试 手动设置
-    public void initData(){
-        list = new ArrayList<>();
-// String courseName, String teacherName, Integer credit, String college, String major, String courseId, Integer number, String courseType
-        Course course1 = new Course("软件工程","张一",1,"计算机科学与技术","网络工程","12345",50,"专业选修课");
-        Course course2 = new Course("软件工程","张二",2,"计算机科学与技术","网络工程","12345",50,"专业选修课");
-        Course course3 = new Course("软件工程","张三",3,"计算机科学与技术","网络工程","12345",50,"专业选修课");
-        Course course4 = new Course("软件工程","张四",4,"计算机科学与技术","网络工程","12345",50,"专业选修课");
-        list.add(course1);
-        list.add(course2);
-        list.add(course3);
-        list.add(course4);
 
-    }
 
 
     @Override

@@ -1,6 +1,8 @@
 package www.hqu.edu.cn.lxb.database;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class myDataBase {
     // sqlite3 默认没有开启外键约束
@@ -59,13 +61,15 @@ public class myDataBase {
     // 测试: 手动插入学生数据
     String DEFAULTINSERT = "insert into student values (\"1625131017\",\"李溪滨\",\"2016\",\"网络工程\",\"计算机科学与技术\")";
     // 测试: 手动插入学生的登录账户和密码
+    String DEFAULT_INSERT_TEACHER_LOGIN = "insert into teacherlogin values('123456','admin')";
     String DEFAULT_INSERT_STUDENT_LOGIN = " insert into studentlogin values (\"1625131017\",\"admin\")";
     // 测试: 手动插入教师信息
     String DEFAULT_INSERT_TEACHER = "insert into teacher values ('123456','张三','计算机科学与技术')";
     String DEFAULT_INSERT_TEACHER2 = "insert into teacher values ('123457','李四','计算机科学与技术')";
     // 测试: 手动插入课程信息
-    String DEFAULT_INSERT_COURSE = "insert into course values('12345','软件工程','专业选修课',2016,50,2,'123456','计算机科学与技术','网络工程')";
+    String DEFAULT_INSERT_COURSE = "insert into course values('12345','软件工程','专业选修课',2016,100,2,'123456','计算机科学与技术','网络工程')";
     String DEFAULT_INSERT_COURSE2 = "insert into course values('12346','高等数学','专业必修课',2016,50,3,'123457','计算机科学与技术','网络工程')";
+    String DEFAULT_INSERT_COURSE3= "insert into course values('12341','计算机组成原理','专业必修课',2016,50,3,'123457','计算机科学与技术','网络工程')";
     // ces: 手动插入学生选课信息
     String DEFAULT_SELECT_COURSE = "insert into course_select values('1625131017','12345')";
     String DEFAULT_SELECT_COURSE2 = "insert into course_select values('1625131017','12346')";
@@ -89,18 +93,16 @@ public class myDataBase {
     public myDataBase(String path) {
         SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(path,null);
 
-
-        //如果表存在先删除
-
-        database.execSQL("DROP TABLE IF EXISTS course");
-        database.execSQL("DROP TABLE IF EXISTS course_select");
-        database.execSQL("DROP TABLE IF EXISTS teacherlogin");
-
-        database.execSQL("DROP TABLE IF EXISTS studentlogin");
-        database.execSQL("DROP TABLE IF EXISTS teacher");
-        database.execSQL("DROP TABLE IF EXISTS student");
-
-
+//        if(this.isExists(database,"course"))
+//        //如果表存在先删除
+//
+//        database.execSQL("DROP TABLE IF EXISTS course");
+//        database.execSQL("DROP TABLE IF EXISTS course_select");
+//        database.execSQL("DROP TABLE IF EXISTS teacherlogin");
+//
+//        database.execSQL("DROP TABLE IF EXISTS studentlogin");
+//        database.execSQL("DROP TABLE IF EXISTS teacher");
+//        database.execSQL("DROP TABLE IF EXISTS student");
 
 
 
@@ -108,25 +110,46 @@ public class myDataBase {
 
 
 
+        if(this.isExists(database,"student")==false) {
 
-        database.execSQL(OPEN_FOREIGEN_KEY); //开启使用外键
-        database.execSQL(STUDENT); //创建学生表
-        database.execSQL(TEACHER); //创建教师表
-        database.execSQL(STUDENT_LOGIN); // 学生登录
-        database.execSQL(TEACHER_LOGIN); // 教师登录
-        database.execSQL(COURSE); // 创建课程表
-        database.execSQL(COURSE_SELECT); //创建课程选择表
-        // 测试的时候 每次这边都会初始化 程序报错 所以开始时候先删除所有表
 
-        database.execSQL(DEFAULTINSERT); // 插入学生信息
-        database.execSQL(DEFAULT_INSERT_STUDENT_LOGIN);// 插入账号密码
-        database.execSQL(DEFAULT_INSERT_TEACHER); //插入教师信息
-        database.execSQL(DEFAULT_INSERT_TEACHER2); //插入教师信息
-        database.execSQL(DEFAULT_INSERT_COURSE); //插入课程信息
-        database.execSQL(DEFAULT_INSERT_COURSE2); //插入课程信息
-        database.execSQL(DEFAULT_SELECT_COURSE); //插入选课
-        database.execSQL(DEFAULT_SELECT_COURSE2); //插入选课
+            database.execSQL(OPEN_FOREIGEN_KEY); //开启使用外键
+            database.execSQL(STUDENT); //创建学生表
+            database.execSQL(TEACHER); //创建教师表
+            database.execSQL(STUDENT_LOGIN); // 学生登录
+            database.execSQL(TEACHER_LOGIN); // 教师登录
+            database.execSQL(COURSE); // 创建课程表
+            database.execSQL(COURSE_SELECT); //创建课程选择表
+            // 测试的时候 每次这边都会初始化 程序报错 所以开始时候先删除所有表
 
+            database.execSQL(DEFAULTINSERT); // 插入学生信息
+            database.execSQL(DEFAULT_INSERT_STUDENT_LOGIN);// 插入账号密码
+
+
+            database.execSQL(DEFAULT_INSERT_TEACHER); //插入教师信息
+            database.execSQL(DEFAULT_INSERT_TEACHER2); //插入教师信息
+            database.execSQL(DEFAULT_INSERT_TEACHER_LOGIN); // 插入老师账号密码
+            database.execSQL(DEFAULT_INSERT_COURSE); //插入课程信息
+            database.execSQL(DEFAULT_INSERT_COURSE2); //插入课程信息
+            database.execSQL(DEFAULT_INSERT_COURSE3);
+//        database.execSQL(DEFAULT_SELECT_COURSE); //插入选课
+//        database.execSQL(DEFAULT_SELECT_COURSE2); //插入选课
+            Log.i("数据库", "数据库默认初始化完成");
+
+
+        }
 }
+    public Boolean isExists(SQLiteDatabase database,String table){
+        boolean isTableExist=true;
+        SQLiteDatabase db=database;
+        Cursor c=db.rawQuery("SELECT count(*) FROM sqlite_master WHERE type='table' AND name= ?", new String[]{table});
+        c.moveToNext();
+        if (c.getInt(0)==0) {
+            isTableExist=false;
+        }
+        c.close();
+        return isTableExist;
+
+    }
 
 }
