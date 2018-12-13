@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import www.hqu.edu.cn.lxb.coursesystem.R;
@@ -21,10 +23,19 @@ public class StudentCourseEditAdapter extends RecyclerView.Adapter <StudentCours
     Context context;
     //传递进来的参数
     List<Course> list;
-
+    private List<String> selectedcourse = new ArrayList<>();
     public List<Course> getList() {
         return list;
     }
+    public List<String> getSelectedcourse() {
+        return selectedcourse;
+    }
+
+    public void clearSelectCourse(){
+        this.selectedcourse.clear();
+    }
+
+
 
     public void setList(List<Course> list) {
         this.list = list;
@@ -67,6 +78,7 @@ public class StudentCourseEditAdapter extends RecyclerView.Adapter <StudentCours
         holder.teacherName.setText(course.getTeacherName());
         holder.courseCredit.setText(course.getCredit()+"");
         holder.number.setText(course.getNumber()+"");
+        holder.checkBox.setChecked(false);
 
     }
 
@@ -129,12 +141,10 @@ public class StudentCourseEditAdapter extends RecyclerView.Adapter <StudentCours
                     Toast.makeText(context,"点击了xxx",Toast.LENGTH_SHORT).show();
                     if(!selected) {
                         checkBox.setChecked(true);
-                        Log.i("Select",courseName.getText().toString());
                         selected = true;
                     }
                     else {
                         checkBox.setChecked(false);
-                        Log.i("UnSelect",courseName.getText().toString());
                         selected = false;
                     }
 
@@ -149,6 +159,29 @@ public class StudentCourseEditAdapter extends RecyclerView.Adapter <StudentCours
 
 
 
+            //复选框监听
+
+
+
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked){
+                        selectedcourse.add(courseName.getText().toString());
+                        Log.i("Select",courseName.getText().toString());
+                        Log.i("selectedcoursezzzz",selectedcourse.toString());
+
+                    }
+                    if(!isChecked){
+                        if(selectedcourse.size()!=0)
+                            selectedcourse.remove(selectedcourse.size()-1);
+                        Log.i("UnSelect",courseName.getText().toString());
+                        Log.i("selectedcoursezzzzz",selectedcourse.toString());
+                    }
+                }
+            });
+
+        }
 
 
 
@@ -158,8 +191,8 @@ public class StudentCourseEditAdapter extends RecyclerView.Adapter <StudentCours
 
 
         }
-        }
-    }
+}
+
 
 
 

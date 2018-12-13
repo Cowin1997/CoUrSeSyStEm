@@ -41,7 +41,21 @@ public class TeacherLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.i("loginInfo",TeacherId.getText()+":"+PassWord.getText());
                 if(loginService.teacherLogin(TeacherId.getText()+"",PassWord.getText()+"")==true){
+
                     Intent intent = new Intent(TeacherLoginActivity.this, TeacherHome.class);
+                   Teacher teacher = loginService.getTeacherInfoByTid(TeacherId.getText()+"");
+                   if(teacher!=null){
+                       intent.putExtra("tid",teacher.gettId());
+                       intent.putExtra("tname",teacher.gettName());
+                       intent.putExtra("tcollege",teacher.gettCollege());
+                   }
+                   else{
+                       intent.putExtra("tid","");
+                       intent.putExtra("tname","");
+                       intent.putExtra("tcollege","");
+                   }
+
+
                     startActivity(intent);
                 }
                 else{

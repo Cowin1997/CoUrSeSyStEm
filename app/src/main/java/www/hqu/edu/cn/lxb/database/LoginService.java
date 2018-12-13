@@ -3,7 +3,7 @@ package www.hqu.edu.cn.lxb.database;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
+import www.hqu.edu.cn.lxb.entity.Teacher;
 import www.hqu.edu.cn.lxb.entity.Student;
 
 public class LoginService {
@@ -12,6 +12,9 @@ public class LoginService {
     private static String getStudentLoginQuery=" select * from student where sid = ?";
     private static String Teacher_LOGIN_QUERY="select * from teacherlogin where tid= ? and tpasswd =?";
     String FIND_STUDENT_BY_ID ="select * from Student where sid = ?";
+    private String getTeacherInfo = "select * from teacher where tid=?";
+
+
 
     public LoginService(String path){
         db = SQLiteDatabase.openOrCreateDatabase(path,null);
@@ -76,5 +79,25 @@ public class LoginService {
         }
 
     }
+
+
+        public Teacher getTeacherInfoByTid(String tid) {
+            Teacher teacher = new Teacher();
+            Cursor cursor = db.rawQuery(getTeacherInfo, new String[]{tid});
+            if (cursor.getCount() == 1) {
+                cursor.moveToNext();
+                teacher.settId(cursor.getString(0));
+                teacher.settName(cursor.getString(1));
+                teacher.settCollege(cursor.getString(2));
+                Log.i("查询到的教师信息结果", teacher.toString());
+
+                return teacher;
+            }
+            else{
+                Log.e("error","教师信息查询结果不唯一");
+                return null;
+            }
+
+        }
 
 }

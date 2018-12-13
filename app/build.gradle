@@ -16,6 +16,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+                            'src/main/res/layout/teacher',
+                            //下面两个是固定兼容写法
+                            'src/main/res/layout',
+                            'src/main/res'
+                    ]
+        }
+    }
+
 }
 
 dependencies {
@@ -29,5 +42,6 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.android.support:percent:27.1.1'
     implementation 'com.chanven.lib:cptr:1.1.0'
-
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
 }

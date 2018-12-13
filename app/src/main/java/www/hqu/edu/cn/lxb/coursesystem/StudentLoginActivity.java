@@ -54,7 +54,9 @@ public class StudentLoginActivity extends AppCompatActivity {
                     intent.putExtra("scollege",student.getsCollege());
                     intent.putExtra("sgrade",student.getsGrade());
                     intent.putExtra("sid",student.getSid());
+                    System.out.println(student.toString());
                     startActivity(intent);
+
                 }
                 else{
                     Toast.makeText(StudentLoginActivity.this,"账号或密码错误!",Toast.LENGTH_SHORT).show();

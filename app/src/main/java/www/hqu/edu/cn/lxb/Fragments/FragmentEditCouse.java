@@ -19,6 +19,7 @@ import java.util.List;
 import www.hqu.edu.cn.lxb.Adapters.StudentCourseEditAdapter;
 import www.hqu.edu.cn.lxb.Adapters.StudentCourseShowAdapter;
 import www.hqu.edu.cn.lxb.coursesystem.R;
+import www.hqu.edu.cn.lxb.database.StudentCourseService;
 import www.hqu.edu.cn.lxb.entity.Course;
 
 
@@ -26,18 +27,22 @@ public class FragmentEditCouse extends Fragment {
     RecyclerView mRecyclerView;
     StudentCourseEditAdapter studentCourseEditAdapter;
     List<Course> list  = null;
-
-    public void setIsshow(Boolean isshow) {
-        this.isshow = isshow;
+    Button bDelete;
+    String sid; //学生 id
+    private StudentCourseService studentCourseService;
+    public String getSid() {
+        return sid;
     }
 
-    Boolean isshow=true;
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
 
-
-    public static FragmentEditCouse newInstance(String text, List<Course>list){
+    public static FragmentEditCouse newInstance(String sid, List<Course>list){
         FragmentEditCouse fragmentShowCouse =new FragmentEditCouse();
         Bundle bundle=new Bundle();
-        bundle.putString("text",text);
+        bundle.putString("sid",sid);
+
         //初始化的时候传入list
         bundle.putParcelableArrayList("list", (ArrayList<? extends Parcelable>) list);
         fragmentShowCouse.setArguments(bundle);
@@ -57,12 +62,14 @@ public class FragmentEditCouse extends Fragment {
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
          // 初始化数据
-         List<Course>list = getArguments().getParcelableArrayList("list");
-    //     Log.i("bounder",  getArguments().getParcelableArrayList("list").toString());
-         //
-         View view=inflater.inflate(R.layout.fragment_select,container,false);
-         if(isshow == false)
-        ((Button) view.findViewById(R.id.select)).setVisibility(View.INVISIBLE);
+        this.sid = getArguments().getString("sid");
+        //this.list = getArguments().getParcelableArrayList("list");
+
+       //  Log.i("bounder", list.toString());
+        studentCourseService = new StudentCourseService(getContext().getFilesDir()+"/test.db3");
+        this.list = studentCourseService.getCourseListById(sid);
+        View view=inflater.inflate(R.layout.fragment_edit,container,false);
+        bDelete =view.findViewById(R.id.delete);
         // 获取Fragment的recyclerView组件
         mRecyclerView = view.findViewById(R.id.recyclerView);
         //设置layoutManager,可以设置显示效果，是线性布局、grid布局，还是瀑布流布局
@@ -76,6 +83,24 @@ public class FragmentEditCouse extends Fragment {
         //设置适配器
         mRecyclerView.setAdapter(studentCourseEditAdapter);
         this.updateData(list); // 一打开的时候是会初始化的,如需要及时显示;update
+
+        bDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Log.i("bSelect",list.toString());
+                Log.i("bDelete","我只是个删除按钮,别点我");
+                // 选中的课
+                List<String>selectCourse = studentCourseEditAdapter.getSelectedcourse();
+
+                //do 删除
+                Log.i("选中删除的课 ",selectCourse.toString());
+               studentCourseService.doDeleteCoursesSelected(sid,selectCourse);
+               studentCourseEditAdapter.clearSelectCourse(); //清空刚刚插入的
+                //    Log.i("可以退选的课 ",studentCourseService.getCourseCanSelectListById(getSid()).toString());
+                updateData(studentCourseService.getCourseListById(getSid()));
+
+            }
+        });
 
 
         Log.i("Fragment","------------onCreateView---------------");
@@ -103,6 +128,5 @@ public class FragmentEditCouse extends Fragment {
         studentCourseEditAdapter.setList(list);
         studentCourseEditAdapter.notifyDataSetChanged(); // 当有数据更新的时候需要告诉适配器的鸭
     }
-
 
 }

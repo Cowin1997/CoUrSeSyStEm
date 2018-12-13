@@ -143,7 +143,7 @@ public class StudentCourseSelectAdapter extends RecyclerView.Adapter <StudentCou
                 public void onClick(View v) {
 
                     //可以选择直接在本位置直接写业务处理
-                    Toast.makeText(context,"点击了xxx",Toast.LENGTH_SHORT).show();
+              //      Toast.makeText(context,"点击了xxx",Toast.LENGTH_SHORT).show();
                     if(!selected) {
                         checkBox.setChecked(true);
                         selected = true;

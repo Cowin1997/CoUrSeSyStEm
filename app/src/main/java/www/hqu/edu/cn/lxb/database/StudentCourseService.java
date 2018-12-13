@@ -12,7 +12,7 @@ import www.hqu.edu.cn.lxb.entity.Student;
 
 public class StudentCourseService {
     private static SQLiteDatabase db;
-    String FIND_COURSE_SELECT = "select course_select.sid,course.ctype,course.cname,teacher.tname,course.credit from course_select join course join student\n" +
+    String FIND_COURSE_SELECT = "select course_select.sid,course.ctype,course.cname,teacher.tname,course.credit,course.number from course_select join course join student\n" +
             "    join teacher where  course.tid = teacher.tid and   course_select.cid=course.cid\n" +
             "     and course_select.sid=student.sid and student.sid= ?";
     String COURSE_CAN_SELECT = " select * from course join teacher where  course.tid=teacher.tid  and grade = ? and major = ? and cid  not in (select cid from\n" +
@@ -24,8 +24,8 @@ public class StudentCourseService {
     String Insert_SelectCourse = " insert into course_select values(?,?)";
 
     String Update_Number_Course = "update course set number=number-1 where cid = ?";
-
-
+    String Update_Number_Course2 = "update course set number=number+1 where cid = ?";
+    String Delete_Courses_Selected = "delete from course_select where sid= ? and cid = (select cid from course where cname= ?)";
     public StudentCourseService(String path) {
         db = SQLiteDatabase.openOrCreateDatabase(path,null);
     }
@@ -44,6 +44,7 @@ public class StudentCourseService {
                 course.setCourseName(cursor.getString(cursor.getColumnIndex("cname")));
                 course.setCredit(Integer.parseInt(cursor.getString(cursor.getColumnIndex("credit"))));
                 course.setCourseType(cursor.getString(cursor.getColumnIndex("ctype")));
+                course.setNumber(Integer.parseInt(cursor.getString(cursor.getColumnIndex("number"))));
                 list.add(course);
 
                 }
@@ -57,9 +58,9 @@ public class StudentCourseService {
     public List<Course> getCourseCanSelectListById(String sid){
 
         Student student  = this.getStudentById(sid);
-
+        Log.i("学生啊",student.toString());
         List<Course> list = new ArrayList<>();
-        Cursor cursor = db.rawQuery(COURSE_CAN_SELECT,new String[]{"2016","网络工程",sid});
+        Cursor cursor = db.rawQuery(COURSE_CAN_SELECT,new String[]{student.getsGrade(),student.getsMajor(),sid});
         if(cursor.getCount()<=0)
             return null;
         else{
@@ -71,7 +72,6 @@ public class StudentCourseService {
                 course.setCredit(Integer.parseInt(cursor.getString(cursor.getColumnIndex("credit"))));
                 course.setCourseType(cursor.getString(cursor.getColumnIndex("ctype")));
                 list.add(course);
-
             }
             Log.i("coursescanselect",list.toString());
         }
@@ -113,20 +113,41 @@ public class StudentCourseService {
                 Log.i("选中的课",cursor.getCount()+"");
                 String cid = cursor.getString(cursor.getColumnIndex("cid"));
                 db.execSQL(Insert_SelectCourse,new String[]{sid,cid});
-                this.UpdateCourseNumber(cid);
+                this.UpdateCourseNumberSelect(cid);
                 Log.i("插入选课",i+"");
-
-
-
 
         }
 
 
+    }
+
+
+    public void doDeleteCoursesSelected (String sid,List<String> courses){
+
+
+        for(int i=0;i<courses.size();i++){
+            Cursor cursor = db.rawQuery(Select_CourseId_By_cname,new String[]{courses.get(i)});
+            cursor.moveToNext();
+
+            String cid = cursor.getString(cursor.getColumnIndex("cid"));
+            db.execSQL(Delete_Courses_Selected,new String[]{sid,courses.get(i)});
+            this.UpdateCourseNumberDelete(cid);
+            Log.i("删除选课",i+":"+courses.get(i));
+        }
 
     }
-    public void UpdateCourseNumber(String cid){
+
+
+
+
+
+    // 选课-1
+    public void UpdateCourseNumberSelect(String cid){
         db.execSQL(Update_Number_Course,new String[]{cid});
     }
-
+    //
+    public void UpdateCourseNumberDelete(String cid){
+        db.execSQL(Update_Number_Course2,new String[]{cid});
+    }
 
 }

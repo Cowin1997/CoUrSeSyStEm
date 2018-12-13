@@ -6,7 +6,16 @@ public class Student {
     private String sGrade;
     private String sMajor;
     private String sCollege;
+    private Integer gender;
+    private String sex;
 
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
 
     @Override
     public String toString() {
@@ -16,7 +25,17 @@ public class Student {
                 ", sGrade='" + sGrade + '\'' +
                 ", sMajor='" + sMajor + '\'' +
                 ", sCollege='" + sCollege + '\'' +
+                ", gender=" + gender +
+                ", sex='" + sex + '\'' +
                 '}';
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
     }
 
     public String getSid() {

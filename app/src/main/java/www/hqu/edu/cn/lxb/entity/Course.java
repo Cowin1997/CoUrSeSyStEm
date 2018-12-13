@@ -12,6 +12,15 @@ public class Course implements Parcelable {
     private String courseId; //课程id
     private Integer number; //可选人数
     private String courseType;
+    private Integer grade;
+
+    public Integer getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Integer grade) {
+        this.grade = grade;
+    }
 
     public Course() {
     }

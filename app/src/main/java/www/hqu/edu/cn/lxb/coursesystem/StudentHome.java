@@ -75,18 +75,18 @@ public class StudentHome extends AppCompatActivity {
         studentName.setText(getIntent().getStringExtra("sname"));
         studentCollege.setText(getIntent().getStringExtra("scollege"));
 
-        // 我的课程初始化数据
-        List<Course> listshow;
-        listshow = studentCourseService.getCourseListById("1625131017");
-        // 可选课程初始化数据
-        List<Course> listselect = studentCourseService.getCourseCanSelectListById("1625131017")  ;
-        List<Course> listedit;
-        listedit = studentCourseService.getCourseListById("1625131017");
+//        // 我的课程初始化数据
+//        List<Course> listshow;
+//        listshow = studentCourseService.getCourseListById("1625131017");
+//        // 可选课程初始化数据
+//        List<Course> listselect = studentCourseService.getCourseCanSelectListById("1625131017")  ;
+//        List<Course> listedit;
+//        listedit = studentCourseService.getCourseListById("1625131017");
 
         // 初始化 两个 fragment
-        fragmentSelectCouse = FragmentSelectCouse.newInstance("1625131017",listselect);
-        fragmentShowCouse = FragmentShowCouse.newInstance("2",listshow);
-        fragmentEditCouse = FragmentEditCouse.newInstance("3",listedit);
+        fragmentSelectCouse = FragmentSelectCouse.newInstance(getIntent().getStringExtra("sid"),studentCourseService.getCourseCanSelectListById(getIntent().getStringExtra("sid")) );
+        fragmentShowCouse = FragmentShowCouse.newInstance("2",studentCourseService.getCourseListById(getIntent().getStringExtra("sid")));
+        fragmentEditCouse = FragmentEditCouse.newInstance(getIntent().getStringExtra("sid"),studentCourseService.getCourseListById(getIntent().getStringExtra("sid")));
        // ptrClassicFrameLayout = (PtrClassicFrameLayout) fragmentShowCouse1.getLayoutInflater()
         //这里设置 TabView
 
@@ -106,12 +106,12 @@ public class StudentHome extends AppCompatActivity {
                     public void onTabChildClick(int position, ImageView currentImageIcon, TextView currentTextView) {
                         if (position==1){
                             List<Course> list;
-                            list = studentCourseService.getCourseListById("1625131017");
+                            list = studentCourseService.getCourseListById(getIntent().getStringExtra("sid"));
                             fragmentShowCouse.setList(list);
 
                         }
                         if(position==0){
-                            List<Course> listselect = studentCourseService.getCourseCanSelectListById("1625131017");
+                            List<Course> listselect = studentCourseService.getCourseCanSelectListById(getIntent().getStringExtra("sid"));
           //                  Log.i("可以选课",listselect.toString());
                             fragmentSelectCouse.setList(listselect);
 
@@ -119,18 +119,12 @@ public class StudentHome extends AppCompatActivity {
                         if(position==2){
 
                             List<Course> list;
-                            list = studentCourseService.getCourseListById("1625131017");
+                            list = studentCourseService.getCourseListById(getIntent().getStringExtra("sid"));
                             fragmentEditCouse.setList(list);
-
-
 
                         }
 
-
-
-
-
-                 Toast.makeText(getApplicationContext(),"position:"+position,Toast.LENGTH_SHORT).show();
+               //  Toast.makeText(getApplicationContext(),"position:"+position,Toast.LENGTH_SHORT).show();
             }
         });
 

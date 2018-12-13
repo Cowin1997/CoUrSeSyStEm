@@ -14,7 +14,8 @@ public class myDataBase {
                     +"sname varchar(20),"
                     +" sgrade varchar(4),"
                     +" smajor varchar(20),"
-                    +"scollege varchar(20)"
+                    +"scollege varchar(20),"
+                    + "gender int"
                     +")";
     // 创建教师表t
     String TEACHER =
@@ -59,9 +60,12 @@ public class myDataBase {
 
 
     // 测试: 手动插入学生数据
-    String DEFAULTINSERT = "insert into student values (\"1625131017\",\"李溪滨\",\"2016\",\"网络工程\",\"计算机科学与技术\")";
+    String DEFAULTINSERT = "insert into student values (\"1625131017\",\"李溪滨\",\"2016\",\"网络工程\",\"计算机科学与技术\",1)";
+      String DEFAULTINSERT2 = "insert into student values ('1625131016','xxx','2016','网络工程','计算机科学与技术',1)";
+
     // 测试: 手动插入学生的登录账户和密码
     String DEFAULT_INSERT_TEACHER_LOGIN = "insert into teacherlogin values('123456','admin')";
+     String DEFAULT_INSERT_STUDENT_LOGIN2 = "insert into studentlogin values('1625131016','admin')";
     String DEFAULT_INSERT_STUDENT_LOGIN = " insert into studentlogin values (\"1625131017\",\"admin\")";
     // 测试: 手动插入教师信息
     String DEFAULT_INSERT_TEACHER = "insert into teacher values ('123456','张三','计算机科学与技术')";
@@ -123,8 +127,9 @@ public class myDataBase {
             // 测试的时候 每次这边都会初始化 程序报错 所以开始时候先删除所有表
 
             database.execSQL(DEFAULTINSERT); // 插入学生信息
+             database.execSQL(DEFAULTINSERT2); // 插入学生信息
             database.execSQL(DEFAULT_INSERT_STUDENT_LOGIN);// 插入账号密码
-
+             database.execSQL(DEFAULT_INSERT_STUDENT_LOGIN2);// 插入账号密码
 
             database.execSQL(DEFAULT_INSERT_TEACHER); //插入教师信息
             database.execSQL(DEFAULT_INSERT_TEACHER2); //插入教师信息

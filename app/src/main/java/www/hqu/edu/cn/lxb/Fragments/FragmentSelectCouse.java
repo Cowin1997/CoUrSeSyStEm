@@ -97,7 +97,7 @@ public class FragmentSelectCouse extends Fragment {
         ((Button) view.findViewById(R.id.select)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("bSelect",list.toString());
+//                Log.i("bSelect",list.toString());
                 Log.i("bSelect","我只是个选择按钮,别点我");
                // 选中的课
                 List<String>selectCourse = studentCourseSelectAdapter.getSelectedcourse();
@@ -115,8 +115,6 @@ public class FragmentSelectCouse extends Fragment {
         Log.i("Fragment","------------onCreateView---------------");
         return view;
     }
-
-
 
 
     @Override
